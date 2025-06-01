@@ -2,7 +2,7 @@
 /**
  * Class to handle affiliate functionality
  */
-require_once plugin_dir_path(__FILE__) . '../../affiliates/lib/core/class-affiliates-registration.php';
+require_once plugin_dir_path(__FILE__) . '../../../affiliates/lib/core/class-affiliates-registration.php';
 
 class GSCAffiliate {
     /**
@@ -14,7 +14,7 @@ class GSCAffiliate {
      * Constructor.
      */
     public function __construct() {
-        error_log('GSCAffiliate: Affiliate class constructor called');
+       // error_log('GSCAffiliate: Affiliate class constructor called');
         
         // Hook into user registration
         add_action('user_register', array($this, 'create_affiliate_on_register'));
@@ -22,7 +22,7 @@ class GSCAffiliate {
         // Hook into affiliate creation
         add_action('affiliates_register_affiliate', array($this, 'handle_affiliate_creation'), 10, 2);
         
-        error_log('GSCAffiliate: Affiliate hooks set up');
+        // error_log('GSCAffiliate: Affiliate hooks set up');
     }
 
     /**
@@ -31,24 +31,24 @@ class GSCAffiliate {
      * @param int $user_id The ID of the newly registered user
      */
     public function create_affiliate_on_register($user_id) {
-        error_log('GSCAffiliate: Starting affiliate creation for user ' . $user_id);
+        // error_log('GSCAffiliate: Starting affiliate creation for user ' . $user_id);
         
         if (!class_exists('Affiliates_Registration')) {
-            error_log('GSCAffiliate: ERROR: Affiliate Registration class not loaded');
+            // error_log('GSCAffiliate: ERROR: Affiliate Registration class not loaded');
             return;
         }
         
         $user = get_userdata($user_id);
 
         if (!$user) {
-            error_log('GSCAffiliate: ERROR: User not found for ID: ' . $user_id);
+            // error_log('GSCAffiliate: ERROR: User not found for ID: ' . $user_id);
             return;
         }
         
         // Check if user is already affiliate
         $affiliate_id = get_user_meta($user_id, '_affiliate_id', true);
         if ($affiliate_id) {
-            error_log('GSCAffiliate: User already has affiliate account. Affiliate ID: ' . $affiliate_id);
+            // error_log('GSCAffiliate: User already has affiliate account. Affiliate ID: ' . $affiliate_id);
             return;
         }
         
@@ -65,9 +65,9 @@ class GSCAffiliate {
         $result = Affiliates_Registration::store_affiliate($user_id, $affiliate_data, 'active');
         
         if ($result) {
-            error_log('GSCAffiliate: SUCCESS: Affiliate created successfully. Affiliate ID: ' . $result);
+            // error_log('GSCAffiliate: SUCCESS: Affiliate created successfully. Affiliate ID: ' . $result);
         } else {
-            error_log('GSCAffiliate: ERROR: Failed to create affiliate');
+            // error_log('GSCAffiliate: ERROR: Failed to create affiliate');
         }
     }
 
@@ -78,8 +78,8 @@ class GSCAffiliate {
      * @param array $affiliate_data The affiliate data
      */
     public function handle_affiliate_creation($affiliate_id, $affiliate_data) {
-        error_log('GSCAffiliate: Affiliate created. ID: ' . $affiliate_id);
-        error_log('GSCAffiliate: Affiliate data: ' . print_r($affiliate_data, true));
+        // error_log('GSCAffiliate: Affiliate created. ID: ' . $affiliate_id);
+        // error_log('GSCAffiliate: Affiliate data: ' . print_r($affiliate_data, true));
         
         // Add any additional affiliate setup here
     }
@@ -93,4 +93,7 @@ class GSCAffiliate {
         }
         return self::$_instance;
     }
+
+
+    
 }

@@ -1,0 +1,340 @@
+.gsc-affiliate-container.profile-only {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.gsc-affiliate-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+}
+
+.gsc-profile-form {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.gsc-form-row {
+    margin-bottom: 1.5rem;
+    max-width: 650px;
+}
+
+.gsc-form-row label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #333;
+    font-weight: 500;
+}
+
+.gsc-form-row input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.07);
+    background-color: #fff;
+    color: #2c3338;
+    outline: none;
+    transition: 0.05s border-color ease-in-out;
+}
+
+.gsc-form-row input:focus {
+    border-color: #4a90e2;
+    box-shadow: 0 0 0 1px #4a90e2;
+}
+
+.upi-confirmation {
+    margin-top: 10px;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 4px;
+}
+
+.upi-confirmation .account-name {
+    margin-bottom: 8px;
+    color: #2c3338;
+}
+
+.upi-confirmation .account-name strong {
+    font-weight: 600;
+}
+
+.checkbox-row {
+    margin-top: 10px !important;
+}
+
+.checkbox-field {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 0;
+}
+
+.checkbox-field input[type="checkbox"] {
+    margin: 3px 0 0;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.checkbox-field label {
+    margin: 0;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 22px;
+    user-select: none;
+    color: #2c3338;
+}
+
+.upi-field-group {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+}
+
+.upi-field-group input {
+    flex: 1;
+}
+
+.verify-upi-btn {
+    padding: 0.75rem 1.5rem;
+    background: #4a90e2;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    white-space: nowrap;
+    transition: background-color 0.2s ease;
+}
+
+.verify-upi-btn:hover:not(:disabled) {
+    background: #357abd;
+}
+
+.verify-upi-btn:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+    background-color: #e2e2e2;
+    color: #666;
+}
+
+.save-profile-btn {
+    background: #2ecc71;
+    color: white;
+    padding: 0.75rem 2rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 1rem;
+}
+
+button:disabled,
+.save-profile-btn:disabled,
+.verify-upi-btn:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+    background-color: #e2e2e2 !important;
+    border-color: #ddd !important;
+    color: #666 !important;
+    pointer-events: none;
+}
+
+.save-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.save-status {
+    color: #27ae60;
+    font-size: 14px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.save-status.show {
+    opacity: 1;
+}
+
+.save-profile-btn:hover {
+    background: #27ae60;
+}
+
+#upi-verification-status {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+}
+
+#upi-verification-status.success {
+    color: #2ecc71;
+}
+
+#upi-verification-status.error {
+    color: #e74c3c;
+}
+
+.gsc-affiliate-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 0;
+    position: relative;
+}
+
+.gsc-tab-button {
+    background: none;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    color: #666;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 6px 6px 0 0;
+    font-weight: 500;
+    position: relative;
+    border: 1px solid transparent;
+    margin-bottom: -1px;
+}
+
+.gsc-tab-button:hover {
+    background: #f8f8f8;
+    color: #333;
+}
+
+.gsc-tab-button.active {
+    background: #fff;
+    color: #4a90e2;
+    font-weight: 600;
+    border: 1px solid #f0f0f0;
+    border-bottom-color: #fff;
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.05);
+}
+
+.gsc-tab-button.active:after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: #fff;
+}
+
+.gsc-tab-content {
+    display: none;
+    border-top: 1px solid #f0f0f0;
+    margin-top: -1px;
+    padding: 1.5rem;
+    position: relative;
+    z-index: 1;
+}
+
+.gsc-tab-content.active {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.gsc-affiliate-error {
+    background: #fff5f5;
+    color: #e53e3e;
+    padding: 1rem;
+    border-radius: 6px;
+    text-align: center;
+    margin: 1rem 0;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+
+
+/* Affiliate Link Styles */
+.gsc-affiliate-link-container {
+    margin: 1rem 0;
+    padding: 1rem;
+    background: #fff;
+    border-radius: 4px;
+}
+
+.gsc-affiliate-link-container h3 {
+    margin: 0 0 1rem;
+    font-size: 1.2em;
+    color: #2c3338;
+}
+
+/* .affiliate-url-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 1rem;
+} */
+
+#affiliate-url {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background: #f8f8f8;
+    font-size: 14px;
+    color: #50575e;
+}
+
+.copy-url-btn {
+    padding: 8px 16px;
+    background: #2271b1;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.copy-url-btn:hover {
+    background: #135e96;
+}
+
+.gsc-affiliate-link-container p {
+    margin: 0;
+    line-height: 1.5;
+    color: #50575e;
+}
+
+.link-error {
+    color: #d63638;
+}
+
+/* //////////////////////////////////////// */
+
+
+/* .gsc-affiliate-container .profile-only {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.gsc-affiliate-container.profile-only .gsc-tab-content {
+    padding: 0;
+} */
