@@ -49,8 +49,8 @@ class GSC_Frontend_Affiliate {
                 <div class="gsc-form-row">
                     <label>Your affiliate URL:</label>
                     <div class="affiliate-url-group">
-                        <input type="text" id="affiliate-url" value="<?php echo esc_url(add_query_arg($param_name, $affiliate_id, site_url())); ?>" readonly>
-                        <br> <button type="button" class="copy-url-btn" onclick="copyAffiliateUrl()">Copy to clipboard</button>
+                        <input type="text" id="affiliate-url-shortcode" value="<?php echo esc_url(add_query_arg($param_name, $affiliate_id, site_url())); ?>" readonly>
+                        <button type="button" class="copy-url-btn" onclick="copyAffiliateUrl()">Copy to clipboard</button>
                     </div>
                 </div>
                 <p>You can also add ?<?php echo esc_html($param_name); ?>=<?php echo esc_html($affiliate_id); ?> to any link on <?php echo esc_html(site_url()); ?> to track referrals from your account.</p>
@@ -58,19 +58,6 @@ class GSC_Frontend_Affiliate {
                 <p class="link-error">Affiliate ID not found. Please contact support.</p>
             <?php endif; ?>
         </div>
-        <script>
-        function copyAffiliateUrl() {
-            var urlInput = document.getElementById('affiliate-url');
-            urlInput.select();
-            document.execCommand('copy');
-            
-            var copyBtn = document.querySelector('.copy-url-btn');
-            copyBtn.textContent = 'Copied!';
-            setTimeout(function() {
-                copyBtn.textContent = 'Copy to clipboard';
-            }, 2000);
-        }
-        </script>
         <?php
         return ob_get_clean();
     }
@@ -291,67 +278,234 @@ class GSC_Frontend_Affiliate {
         ?>
         <!-- Inline styles to fix appearance issues -->
         <style>
-        .gsc-affiliate-container {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-        }
-        .gsc-form-row input {
-            width: 100%;
-            padding: 8px 12px !important;
-            border: 1px solid #8c8f94 !important;
-            border-radius: 4px !important;
-            line-height: 2 !important;
-            min-height: 40px !important;
-            box-shadow: inset 0 1px 2px rgba(0,0,0,0.07);
-            background-color: #fff;
-            color: #2c3338;
-        }
-        .gsc-form-row input:focus {
-            border-color: #2271b1 !important;
-            box-shadow: 0 0 0 1px #2271b1 !important;
-            outline: none;
-        }
-        .gsc-affiliate-tabs {
-            display: flex;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-            border-bottom: 1px solid #c3c4c7;
-            padding: 0;
-        }
-        .gsc-tab-button {
-            background: #f0f0f1;
-            border: 1px solid #c3c4c7;
-            border-bottom: none;
-            padding: 0.5rem 1rem;
-            font-size: 14px;
-            color: #50575e;
-            cursor: pointer;
-            margin: 0 0.3rem 0 0;
-            border-radius: 4px 4px 0 0;
-        }
-        .gsc-tab-button.active {
-            background: #fff !important;
-            color: #000 !important;
-            font-weight: 600 !important;
-            border-bottom-color: #fff !important;
-            position: relative;
-            z-index: 1;
-        }
-        .gsc-tab-content {
-            padding: 1rem;
-            border: 1px solid #c3c4c7;
-            border-top: none;
-            margin-top: -1px;
-        }
-        .verify-upi-btn:disabled,
-        .save-profile-btn:disabled,
-        button:disabled {
-            opacity: 0.65 !important;
-            cursor: not-allowed !important;
-            background-color: #e2e2e2 !important;
-            border-color: #ddd !important;
-            color: #666 !important;
-        }
-        </style>
+    .gsc-affiliate-container {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    /* Tabs Styling */
+    .gsc-affiliate-tabs {
+        display: flex;
+        margin-bottom: 0; /* Remove bottom margin to connect with content */
+        border-bottom: 1px solid #ddd;
+    }
+    .gsc-tab-button {
+        background: #e9ecef;
+        border: 1px solid #ddd;
+        border-bottom: none;
+        padding: 10px 20px;
+        font-size: 14px;
+        font-weight: 500;
+        color: #495057;
+        cursor: pointer;
+        border-radius: 6px 6px 0 0;
+        margin-right: 5px;
+        transition: background-color 0.2s ease, color 0.2s ease;
+        position: relative;
+        top: 1px; /* Align with the content border */
+    }
+    .gsc-tab-button:hover {
+        background-color: #dee2e6;
+        color: #343a40;
+    }
+    .gsc-tab-button.active {
+        background-color: #fff;
+        color: #007bff;
+        font-weight: 600;
+        border-color: #ddd;
+        border-bottom: 1px solid #fff; /* Make it look connected to content */
+        z-index: 2;
+    }
+
+    /* Tab Content Styling */
+    .gsc-tab-content {
+        background-color: #fff;
+        padding: 25px;
+        border: 1px solid #ddd;
+        border-top: none; /* Tabs provide the top border appearance */
+        border-radius: 0 0 8px 8px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    /* Form Elements Styling */
+    .gsc-profile-form .gsc-form-row {
+        margin-bottom: 20px;
+    }
+    .gsc-profile-form label {
+        display: block;
+        font-weight: 500;
+        margin-bottom: 8px;
+        color: #343a40;
+        font-size: 14px;
+    }
+    .gsc-profile-form input[type="text"],
+    .gsc-profile-form input[type="email"] {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+        font-size: 14px;
+        line-height: 1.5;
+        color: #495057;
+        background-color: #fff;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        box-sizing: border-box;
+    }
+    .gsc-profile-form input[type="text"]:focus,
+    .gsc-profile-form input[type="email"]:focus {
+        border-color: #80bdff;
+        outline: 0;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    }
+
+
+    .gsc-name-fields-group {
+        display: flex;
+        gap: 20px; /* Space between the two fields */
+        margin-bottom: 20px; /* Keep original bottom margin for the group */
+    }
+    .gsc-name-fields-group .gsc-form-row {
+        flex: 1; /* Each field takes equal width */
+        margin-bottom: 0; /* Remove individual bottom margin as group has it */
+    }
+
+    /* UPI Field Group */
+    .upi-field-group {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    .upi-field-group input[type="text"] {
+        flex-grow: 1;
+    }
+
+    /* Buttons Styling */
+    .verify-upi-btn, .save-profile-btn, .copy-url-btn {
+        padding: 10px 18px;
+        font-size: 14px;
+        font-weight: 500;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+        border: 1px solid transparent;
+        white-space: nowrap;
+    }
+    .verify-upi-btn {
+        background-color: #20c997; /* Teal color */
+        color: white;
+        border-color: #20c997;
+    }
+    .verify-upi-btn:hover {
+        background-color: #1baa80; /* Darker teal on hover */
+        border-color: #199d75;
+    }
+    .save-profile-btn {
+        background-color: #007bff;
+        color: white;
+        border-color: #007bff;
+    }
+    .save-profile-btn:hover {
+        background-color: #0069d9;
+        border-color: #0062cc;
+    }
+    .copy-url-btn {
+        background-color: #28a745;
+        color: white;
+        border-color: #28a745;
+        display: inline-block; /* Align with input text */
+        margin-top: 5px; /* Space from input */
+    }
+    .copy-url-btn:hover {
+        background-color: #218838;
+        border-color: #1e7e34;
+    }
+
+    /* Disabled Button Styling */
+    .verify-upi-btn:disabled,
+    .save-profile-btn:disabled,
+    button:disabled {
+        background-color: #e9ecef !important;
+        border-color: #ced4da !important;
+        color: #6c757d !important;
+        opacity: 0.65 !important;
+        cursor: not-allowed !important;
+    }
+
+    /* Checkbox Styling */
+    #upi-confirm-row {
+        display: flex;
+        align-items: center;
+        margin-top: 15px;
+        padding: 10px;
+        background-color: #f8f9fa;
+        border: 1px solid #e9ecef;
+        border-radius: 4px;
+    }
+    #upi-confirm-row input[type="checkbox"] {
+        margin-right: 10px;
+        width: 18px; /* Custom size */
+        height: 18px; /* Custom size */
+        cursor: pointer;
+    }
+    #upi-confirm-row label {
+        margin-bottom: 0; /* Override default label margin */
+        font-weight: normal;
+        color: #495057;
+    }
+
+    /* Status Messages */
+    #upi-verification-status, .save-status {
+        margin-top: 10px;
+        padding: 8px 12px;
+        border-radius: 4px;
+        font-size: 14px;
+    }
+    #upi-verification-status.success, .save-status.success {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+    }
+    #upi-verification-status.error, .save-status.error {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+    }
+    #upi-verification-status.info, .save-status.info {
+        background-color: #cce5ff;
+        color: #004085;
+        border: 1px solid #b8daff;
+    }
+
+    /* Verified Account Name Display */
+    .upi-confirmation p.account-name {
+        margin-top: 10px;
+        padding: 8px 12px;
+        background-color: #e2f0fb;
+        border: 1px solid #b8daff;
+        border-radius: 4px;
+        color: #0c5460;
+        font-size: 14px;
+    }
+    .upi-confirmation p.account-name strong {
+        font-weight: 600;
+    }
+
+    /* Affiliate URL section in Profile Tab */
+    .gsc-tab-content .gsc-form-row .affiliate-url-group input[type="text"] {
+        margin-bottom: 5px; /* Space before copy button */
+    }
+
+    .link-error {
+        color: #721c24;
+        background-color: #f8d7da;
+        border: 1px solid #f5c6cb;
+        padding: 10px;
+        border-radius: 4px;
+    }
+    </style>
         <div class="gsc-affiliate-container">
             <nav class="gsc-affiliate-tabs">
                 <button class="gsc-tab-button active" data-tab="overview">Overview</button>
@@ -375,14 +529,15 @@ class GSC_Frontend_Affiliate {
                 <form id="gsc-profile-form" class="gsc-profile-form">
                     <?php wp_nonce_field('gsc_affiliate_nonce', 'gsc_profile_nonce'); ?>
                     
-                    <div class="gsc-form-row">
-                        <label for="first_name">First Name</label>
-                        <input type="text" id="first_name" name="first_name" value="<?php echo esc_attr($data['first_name']); ?>" required>
-                    </div>
-
-                    <div class="gsc-form-row">
-                        <label for="last_name">Last Name</label>
-                        <input type="text" id="last_name" name="last_name" value="<?php echo esc_attr($data['last_name']); ?>" required>
+                    <div class="gsc-name-fields-group">
+                        <div class="gsc-form-row">
+                            <label for="first_name">First Name</label>
+                            <input type="text" id="first_name" name="first_name" value="<?php echo esc_attr($data['first_name']); ?>" required>
+                        </div>
+                        <div class="gsc-form-row">
+                            <label for="last_name">Last Name</label>
+                            <input type="text" id="last_name" name="last_name" value="<?php echo esc_attr($data['last_name']); ?>" required>
+                        </div>
                     </div>
 
                     <div class="gsc-form-row">
@@ -420,7 +575,6 @@ class GSC_Frontend_Affiliate {
                         <label>Your affiliate URL:</label>
                         <div class="affiliate-url-group">
                             <input type="text" id="affiliate-url" value="<?php echo esc_url(add_query_arg($param_name, $affiliate_id, site_url())); ?>" readonly>
-                            <br>
                             <button type="button" class="copy-url-btn" onclick="copyAffiliateUrl()">Copy to clipboard</button>
                         </div>
                     </div>

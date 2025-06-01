@@ -333,4 +333,35 @@ jQuery(document).ready(function($) {
             }
         });
     });
+
+    // Function to copy affiliate URL to clipboard
+    window.copyAffiliateUrl = function() {
+        var copyText = document.getElementById("affiliate-url");
+        var shortcodeCopyText = document.getElementById("affiliate-url-shortcode"); // For shortcode
+
+        if (copyText) {
+            copyText.select();
+            copyText.setSelectionRange(0, 99999); // For mobile devices
+            try {
+                var successful = document.execCommand('copy');
+                var msg = successful ? 'Copied to clipboard!' : 'Copy failed.';
+                // Optionally, provide feedback to the user, e.g., change button text or show a tooltip.
+                console.log('GSC Affiliate JS: ' + msg + ' (Profile)');
+            } catch (err) {
+                console.error('GSC Affiliate JS: Error copying (Profile): ', err);
+            }
+        } else if (shortcodeCopyText) {
+            shortcodeCopyText.select();
+            shortcodeCopyText.setSelectionRange(0, 99999);
+            try {
+                var successful = document.execCommand('copy');
+                var msg = successful ? 'Copied to clipboard!' : 'Copy failed.';
+                console.log('GSC Affiliate JS: ' + msg + ' (Shortcode)');
+            } catch (err) {
+                console.error('GSC Affiliate JS: Error copying (Shortcode): ', err);
+            }
+        } else {
+            console.error('GSC Affiliate JS: affiliate-url element not found for copying.');
+        }
+    }
 });
